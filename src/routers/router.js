@@ -22,7 +22,13 @@ router.post('/coco', (req, res) => {
 
 router.get('/coco', (req, res) => {
     console.log(req.query);
-    const params = {};
+    const { roles } = req.query;
+    const params = {}; 
+    if ( roles ) {
+      const aroles = roles.split(',');
+      params.role = { $in : aroles };
+    }
+  
     Right.find(params).limit(500).then((right) => {
         res.send(right);
   }).catch((error) => {
