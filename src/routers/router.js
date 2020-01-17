@@ -5,13 +5,19 @@ require('../db/mongoose');
 const Right = require('../models/right');
 
 router.post('/coco', (req, res) => {
-    const right = new Right(req.body);
-    right.save().then(() => {
-      res.send(right);
-    }).catch((error) => {
-      res.status(500).send(error);
+    Right.collection.insertMany(req.body, function (err, data){
+      if (err){
+        res.status(500).send(error);
+      }
+      else {
+        console.log('Inserted data:'+JSON.stringify( data ));
+        res.status(200).send(data);
+      }
     });
+    
   });
+
+  
 
 
 router.get('/coco', (req, res) => {
